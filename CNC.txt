@@ -1,0 +1,219 @@
+1 .    Write a program that contains a string (char pointer) with a value ‘Hello 
+world’. The program should XOR each character in the string with 0 and 
+display the result. 
+
+PROGRAM:- 
+#include <stdio.h> 
+int main() { 
+    char str[] = "Hello world"; 
+    int i; 
+printf("Original String: %s\n", str); 
+    for (i = 0; str[i] != '\0'; i++) { 
+        str[i] = str[i] ^ 0; 
+    } 
+ printf("String after XOR with 0: %s\n", str); 
+return 0; 
+} 
+
+2. Write a program to perform encryption and decryption using the Ceaser 
+Cipher.
+
+PROGRAM:- 
+#include <stdio.h> 
+#include <string.h>  
+void encrypt(char *text, int shift) { 
+    int i; 
+    for (i = 0; i < strlen(text); i++) { 
+        if (text[i] >= 'a' && text[i] <= 'z') { 
+            text[i] = ((text[i] - 'a' + shift) % 26) + 'a'; 
+        } else if (text[i] >= 'A' && text[i] <= 'Z') { 
+            text[i] = ((text[i] - 'A' + shift) % 26) + 'A'; 
+        } 
+    } 
+} 
+void decrypt(char *text, int shift) { 
+    int i; 
+    for (i = 0; i < strlen(text); i++) { 
+        if (text[i] >= 'a' && text[i] <= 'z') { 
+            text[i] = ((text[i] - 'a' - shift + 26) % 26) + 'a'; 
+        } else if (text[i] >= 'A' && text[i] <= 'Z') { 
+            text[i] = ((text[i] - 'A' - shift + 26) % 26) + 'A'; 
+        } 
+    } 
+} 
+ 
+int main() { 
+    char text[100]; 
+    int shift; 
+ 
+    printf("Enter the text: "); 
+    fgets(text, sizeof(text), stdin); 
+    text[strcspn(text, "\n")] = 0; // Remove newline character 
+ 
+    printf("Enter the shift: "); 
+    scanf("%d", &shift); 
+ 
+    printf("Original text: %s\n", text); 
+ 
+    encrypt(text, shift); 
+    printf("Encrypted text: %s\n", text); 
+ 
+    decrypt(text, shift); 
+    printf("Decrypted text: %s\n", text); 
+ 
+    return 0; 
+}
+
+3.  Write a program to perform encryption and decryption using the Hill Cipher.
+
+PROGRAM:- 
+
+#include<stdio.h> 
+#include<conio.h> 
+#include<string.h> 
+int main(){ 
+unsigned int a[3][3]={{6,24,1},{13,16,10},{20,17,15}}; 
+unsigned int b[3][3]={{8,5,10},{21,8,21},{21,12,8}}; 
+int i,j, t=0; 
+unsigned int c[20],d[20]; 
+char msg[20]; 
+printf("Enter plain text \n"); 
+scanf("%s",msg); 
+for(i=0;i<strlen(msg);i++) 
+{ c[i]=msg[i]-65; 
+printf("%d ",c[i]); 
+} 
+for(i=0;i<3;i++) 
+{ t=0; 
+for(j=0;j<3;j++) 
+{ 
+t=t+(a[i][j]*c[j]); 
+} 
+d[i]=t%26; 
+} 
+printf("\nEncrypted Cipher Text :"); 
+for(i=0;i<3;i++) 
+printf(" %c",d[i]+65); 
+for(i=0;i<3;i++) 
+{ 
+t=0; 
+for(j=0;j<3;j++) 
+{ 
+t=t+(b[i][j]*d[j]); 
+} 
+c[i]=t%26; 
+} 
+printf("\nDecrypted Cipher Text :"); 
+for(i=0;i<3;i++) 
+printf(" %c",c[i]+65); 
+getch(); 
+return 0; 
+}
+
+4.    Write a program to perform encryption and decryption using the Vernam Cipher
+
+PROGRAM:- 
+
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <time.h> 
+ 
+void vernam_cipher(char *plaintext, char *key, char *ciphertext) { 
+    int i; 
+    for (i = 0; plaintext[i] != '\0'; i++) { 
+        ciphertext[i] = plaintext[i] ^ key[i]; 
+    } 
+    ciphertext[i] = '\0'; 
+} 
+ 
+int main() { 
+    char plaintext[100], key[100], ciphertext[100]; 
+    printf("Enter plaintext: "); 
+    scanf("%s", plaintext); 
+    srand(time(NULL)); 
+    for (int i = 0; plaintext[i] != '\0'; i++)  
+ { 
+      
+        key[i] = rand() % 256; 
+    } 
+    vernam_cipher(plaintext, key, ciphertext); 
+    printf("Ciphertext: %s\n", ciphertext); 
+    vernam_cipher(ciphertext, key, plaintext); 
+    printf("Decrypted plaintext: %s\n", plaintext); 
+    system("pause"); 
+    return 0; 
+} 
+
+5. Write a program to perform encryption and decryption using the 
+Substitution Cipher 
+
+PROGRAM:- 
+
+#include <stdio.h> 
+#include <string.h> 
+ #define MX 5 
+ void playfair(char ch1, char ch2, char key[MX][MX]) { 
+    int i, j, w, x, y, z; 
+    for (i = 0; i < MX; i++) { 
+        for (j = 0; j < MX; j++) { 
+            if (ch1 == key[i][j]) { 
+                w = i; 
+                x = j; 
+            } else if (ch2 == key[i][j]) { 
+                y = i; 
+                z = j; 
+            } 
+        } 
+    } 
+    if (w == y) { 
+        x = (x + 1) % 5; 
+        z = (z + 1) % 5; 
+    } else if (x == z) { 
+        w = (w + 1) % 5; 
+        y = (y + 1) % 5; 
+    } else { 
+        int temp = x; 
+        x = z; 
+        z = temp; 
+    } 
+    printf("%c%c", key[w][x], key[y][z]); 
+} 
+ 
+int main() { 
+    char key[MX][MX], str[25]; 
+    printf("Enter key: "); 
+    scanf("%s", key[0]); 
+    printf("Enter plaintext: "); 
+    scanf("%s", str); 
+    for (int i = 0; i < strlen(str); i += 2) { 
+        playfair(str[i], str[i + 1], key); 
+    } 
+    return 0; 
+} 
+
+6.DES algorithm using Encryption and Decryption 
+
+Source Code: 
+
+#include <iostream> 
+#include <string> 
+using namespace std; 
+string encryptDecrypt(string text, char key) { 
+    string result = text; // Copy the text to result  
+    for (size_t i = 0; i < text.size(); ++i) { 
+        result[i] = text[i] ^ key; 
+    } 
+     return result; 
+} 
+int main() { 
+    string plaintext = "how are you";  
+    char key = 'G';                        
+    string encryptedText = encryptDecrypt(plaintext, key); 
+     cout << "key :" << key<< endl; 
+    cout << "Plaintext: " << plaintext << endl; 
+cout << "Encrypted Text: " << encryptedText << endl; 
+ 
+string decryptedText = encryptDecrypt(encryptedText, key); 
+cout << "Decrypted Text: " << decryptedText << endl; 
+return 0; 
+}
